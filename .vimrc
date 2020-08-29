@@ -1,80 +1,123 @@
-"------------------ Vundle ---------------------"
+"VIM PLUG
+call plug#begin('~/.vim/plugged')
+Plug 'pangloss/vim-javascript'
+Plug 'leafgarland/typescript-vim'
+Plug 'maxmellon/vim-jsx-pretty'
+Plug 'prettier/vim-prettier', { 'do': 'yarn install', 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
+let g:prettier#autoformat = 0
+autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html PrettierAsync
+Plug 'dense-analysis/ale'
+Plug 'vimwiki/vimwiki'
+call plug#end()
 
-set nocompatible              " be iMproved, required
-filetype off                  " required
-
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
-
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
-
-" The following are examples of different formats supported.
-" Keep Plugin commands between vundle#begin/end.
-" plugin on GitHub repo
-Plugin 'tpope/vim-fugitive'
-" plugin from http://vim-scripts.org/vim/scripts.html
-" Plugin 'L9'
-" Git plugin not hosted on GitHub
-Plugin 'git://git.wincent.com/command-t.git'
-" git repos on your local machine (i.e. when working on your own plugin)
-Plugin 'file:///home/gmarik/path/to/plugin'
-" The sparkup vim script is in a subdirectory of this repo called vim.
-" Pass the path to set the runtimepath properly.
-Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
-" Install L9 and avoid a Naming conflict if you've already installed a
-" different version somewhere else.
-" Plugin 'ascenator/L9', {'name': 'newL9'}
-
-" All of your Plugins must be added before the following line
-
-Plugin 'Valloric/YouCompleteMe'
+"Vim wiki - Set it to use markdown
+let g:vimwiki_list = [{'path': '~/vimwiki/',
+                      \ 'syntax': 'markdown', 'ext': '.md'}]
 
 
-call vundle#end()            " required
-filetype plugin indent on    " required
-" To ignore plugin indent changes, instead use:
-"filetype plugin on
-"
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
+"AutoExpanding
+inoremap (; (<CR>);<C-c>O
+inoremap (, (<CR>),<C-c>O
+inoremap {; {<CR>};<C-c>O
+inoremap {, {<CR>},<C-c>O
+inoremap [; [<CR>];<C-c>O
+inoremap [, [<CR>],<C-c>O
+
+"Clipboard for copying vim to clipboard
+set clipboard=unnamed
+
+"Clipboard copying
+vmap <F6> :!xclip -f -sel clip<CR>
+map <F7> :-1r !xclip -o -sel clip<CR>
+
+"LINTING for ale to show the numer of errors and warnings
+"function! LinterStatus() abort
+"    let l:counts = ale#statusline#Count(bufnr(''))    
+"    
+"    let l:all_errors = l:counts.error + l:counts.style_error
+"    let l:all_non_errors = l:counts.total - l:all_errors    
+"    return l:counts.total == 0 ? 'OK' : printf(
+"        \   '%d⨉ %d⚠ ',
+"        \   all_non_errors,
+"        \   all_errors
+"        \)
+"endfunction
+" Ending linting
+
+"set statusline+=%f=
+"set statusline+=\ %{LinterStatus()}
 
 
+" Vim Explore settings
+"Tree list
+let g:netrw_liststyle =4
 
+let g:netrw_banner = 0
+let g:netrw_liststyle = 3
+let g:netrw_browse_split = 2
+let g:netrw_altv = 1
+let g:netrw_winsize = 45
 
+" Have this set if you want vim to always open up with explore when opening
+"augroup ProjectDrawer
+"  autocmd!
+"  autocmd VimEnter * :Vexplore
+"augroup END
 
-
-
-
-" ---------------------   VIM-PLUG --------------------------"
-"call plug#begin()
-"Plug 'pangloss/vim-javascript'
-"Plug 'https://github.com/mxw/vim-jsx.git'
-
-"Plug 'mattn/emmet-vim'
-"Plug 'w0rp/ale' "Syntax Checking
-"
-"call plug#end()
-
-
-set expandtab 
-set tabstop =2
-set shiftwidth =2
-set mouse =a
-set number
 set wildmenu
 set wildmode =list:full
-set smartindent
 
+" Sybtax highlighting
 syntax on
-let g:netrw_browse_split =2
+
+" Show line numbers
+set number
+
+" Show file stats
+set ruler
+
+
+" Blink cursor on error instead of beeping 
+"set visualbell
+
+set mouse =a
+
+" Encoding
+set encoding=utf-8
+
+" Whitespace
+set wrap
+set textwidth=79
+set formatoptions=tcqrn1
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
+set expandtab
+set noshiftround
+
+set smartindent
+" Rendering
+set ttyfast
+
+" Status bar
+set laststatus=2
+
+" Last line
+set showmode
+set showcmd
+
+"set background=dark
+"colorscheme solarized8
+"Color scheme (terminal)
+set t_Co=256
+set background=dark
+let g:solarized_termcolors=256
+let g:solarized_termtrans=1
+colorscheme solarized
+
+"if has('gui_running')
+"    set background=light
+"else
+"    set background=dark
+"endif
 
